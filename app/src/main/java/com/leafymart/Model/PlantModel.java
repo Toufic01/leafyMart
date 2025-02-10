@@ -1,6 +1,6 @@
-package com.leafymart.DataClass;
+package com.leafymart.Model;
 
-public class Plant {
+public class PlantModel {
     private String plantName;
     private String plantValue;
     private String plantRating;
@@ -8,7 +8,7 @@ public class Plant {
     private String plantSold;
     private int plantImage;
 
-    public Plant(String plantName, String plantValue, String plantRating, String plantPeopleRates, String plantSold, int plantImage) {
+    public PlantModel(String plantName, String plantValue, String plantRating, String plantPeopleRates, String plantSold, int plantImage) {
         this.plantName = plantName;
         this.plantValue = plantValue;
         this.plantRating = plantRating;

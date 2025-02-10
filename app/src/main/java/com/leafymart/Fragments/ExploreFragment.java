@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.leafymart.R;
 import com.leafymart.Adapter.PlantAdapter;
-import com.leafymart.DataClass.Plant;
+import com.leafymart.Model.PlantModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class ExploreFragment extends Fragment {
 
     RecyclerView recyclerView;
     PlantAdapter plantAdapter;
-    List<Plant> plants;
+    List<PlantModel> plants;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -41,12 +41,12 @@ public class ExploreFragment extends Fragment {
         recyclerView = view.findViewById(R.id.trending_plants_recyclerView);
         // Create data
         plants = new ArrayList<>();
-        plants.add(new Plant("Plant 1", "৳100", "5.0", "(87)", "161", R.drawable.plant_1));
-        plants.add(new Plant("Plant 2", "৳150", "4.5", "(52)", "120", R.drawable.plant_2));
-        plants.add(new Plant("Plant 3", "৳200", "4.8", "(95)", "180", R.drawable.plant_3));
-        plants.add(new Plant("Plant 4", "৳120", "4.2", "(30)", "90", R.drawable.plant_4));
-        plants.add(new Plant("Plant 5", "৳80", "4.0", "(12)", "60", R.drawable.plant_5));
-        plants.add(new Plant("Plant 6", "৳180", "4.7", "(68)", "140", R.drawable.plant_6));
+        plants.add(new PlantModel("Plant 1", "৳100", "5.0", "(87)", "161", R.drawable.plant_1));
+        plants.add(new PlantModel("Plant 2", "৳150", "4.5", "(52)", "120", R.drawable.plant_2));
+        plants.add(new PlantModel("Plant 3", "৳200", "4.8", "(95)", "180", R.drawable.plant_3));
+        plants.add(new PlantModel("Plant 4", "৳120", "4.2", "(30)", "90", R.drawable.plant_4));
+        plants.add(new PlantModel("Plant 5", "৳80", "4.0", "(12)", "60", R.drawable.plant_5));
+        plants.add(new PlantModel("Plant 6", "৳180", "4.7", "(68)", "140", R.drawable.plant_6));
 
         // Create adapter
         plantAdapter = new PlantAdapter(requireContext(), plants);

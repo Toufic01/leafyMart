@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.leafymart.R;
-import com.leafymart.DataClass.Plant;
+import com.leafymart.Model.PlantModel;
 
 import java.util.List;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> {
 
     private Context context;
-    private List<Plant> plants;
+    private List<PlantModel> plants;
 
-    public PlantAdapter(Context context, List<Plant> plants) {
+    public PlantAdapter(Context context, List<PlantModel> plants) {
         this.context = context;
         this.plants = plants;
     }
@@ -34,7 +34,7 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     @Override
     public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
-        Plant plant = plants.get(position);
+        PlantModel plant = plants.get(position);
 
         holder.trending_plants_IV.setImageResource(plant.getPlantImage());
         holder.trending_plants_name.setText(plant.getPlantName());

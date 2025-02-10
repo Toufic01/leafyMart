@@ -1,4 +1,4 @@
-package com.leafymart;
+package com.leafymart.Activities;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ import com.leafymart.Fragments.ExploreFragment;
 import com.leafymart.Fragments.FavoritesFragment;
 import com.leafymart.Fragments.MessagesFragment;
 import com.leafymart.Fragments.ProfileFragment;
+import com.leafymart.R;
 import com.leafymart.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
