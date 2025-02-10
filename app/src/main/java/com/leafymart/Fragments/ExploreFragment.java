@@ -56,4 +56,5 @@ public class ExploreFragment extends Fragment {
         // Set adapter
         recyclerView.setAdapter(plantAdapter);
     }
+
 }
