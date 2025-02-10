@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8sp"
+    android:layout_columnWeight="1"
+    android:layout_rowWeight="1"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="5sp"
+    app:cardElevation="5sp"
+    app:cardUseCompatPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5sp"
+        android:orientation="vertical"
+        android:padding="2sp">
+
+        <ImageView
+            android:id="@+id/trending_plants_IV"
+            android:layout_width="160sp"
+            android:layout_height="180sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2sp"
+            android:scaleType="fitXY"
+            android:src="@drawable/plant_1" />
+
+        <TextView
+            android:id="@+id/trending_plants_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="Plant Name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/trending_plants_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
+            android:text="৳100"
+            android:textColor="@color/success_dark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/trending_plants_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2sp"
+                android:drawableLeft="@drawable/baseline_star_16"
+                android:text="5.0"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/trending_plants_people_rates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8sp"
+                android:text="(87)"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/trending_plants_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="161"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2sp"
+                android:text="Sold"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
