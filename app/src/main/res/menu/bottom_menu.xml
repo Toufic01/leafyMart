@@ -2,29 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- menu items for buttom Navigation as well as for 3 dot -->
+
     <item
         android:id="@+id/bottom_explore"
         android:icon="@drawable/baseline_explore_24"
+        android:tooltipText="20dp"
         android:title="Explore"/>
 
     <item
         android:id="@+id/bottom_favorites"
         android:icon="@drawable/baseline_favorite_border_24"
+        android:tooltipText="20dp"
         android:title="Favorites"/>
 
     <item
         android:id="@+id/bottom_cart"
         android:icon="@drawable/baseline_shopping_cart_24"
+        android:tooltipText="20dp"
         android:title="Cart"/>
 
     <item
         android:id="@+id/bottom_messages"
         android:icon="@drawable/baseline_message_24"
+        android:tooltipText="20dp"
         android:title="Messages"/>
 
     <item
         android:id="@+id/bottom_profile"
         android:icon="@drawable/baseline_person_24"
+        android:tooltipText="20dp"
         android:title="Profile"/>
 
 </menu>
