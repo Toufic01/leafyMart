@@ -11,6 +11,10 @@
     app:cardElevation="5sp"
     app:cardUseCompatPadding="false">
 
+    <!-- Design for card view in explore fragment -->
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
