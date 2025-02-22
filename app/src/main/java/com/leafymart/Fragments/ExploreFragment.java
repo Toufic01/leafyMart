@@ -3,12 +3,19 @@ package com.leafymart.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -30,13 +37,16 @@ public class ExploreFragment extends Fragment {
 
     private ViewPager2 viewPager2;
 
+    Toolbar toolbar;
+
+
     public ExploreFragment() {
-        // Required empty public constructor
+        /// Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        /// Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_explore, container, false);
     }
 
@@ -45,7 +55,60 @@ public class ExploreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.trending_plants_recyclerView);
-        // Create data
+
+
+        /// set up the toolbar
+
+        toolbar = view.findViewById(R.id.toolbar);
+
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
+        // Set up the toolbar
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+
+        // Add menu provider to handle menu items
+        requireActivity().addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menu_top, menu);
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                if (id == R.id.action_about) {
+
+                    // about work
+
+                    return true;
+                }
+
+                if (id == R.id.action_settings) {
+
+                    // setting work
+
+                    return true;
+                }
+
+                if (id == R.id.action_logout) {
+
+                    // logout work
+
+                    return true;
+                }
+
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
+
+
+
+
+
+
+        /// Create data
         plants = new ArrayList<>();
         plants.add(new PlantModel("Plant 1", "৳100", "5.0", "(87)", "161", R.drawable.plant_1));
         plants.add(new PlantModel("Plant 2", "৳150", "4.5", "(52)", "120", R.drawable.plant_2));
@@ -54,7 +117,7 @@ public class ExploreFragment extends Fragment {
         plants.add(new PlantModel("Plant 5", "৳80", "4.0", "(12)", "60", R.drawable.plant_5));
         plants.add(new PlantModel("Plant 6", "৳180", "4.7", "(68)", "140", R.drawable.plant_6));
 
-        // Create adapter
+        /// Create adapter
         plantAdapter = new PlantAdapter(requireContext(), plants);
         // Set layout manager
         GridLayoutManager gridLayoutManager = new GridLayoutManager(requireContext(), 2);
@@ -63,7 +126,7 @@ public class ExploreFragment extends Fragment {
         recyclerView.setAdapter(plantAdapter);
 
 
-        // ImageSlider
+        /// ImageSlider
         viewPager2 = view.findViewById(R.id.imageSlider);
 
         // List of images
