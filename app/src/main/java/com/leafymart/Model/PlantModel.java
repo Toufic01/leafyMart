@@ -1,5 +1,7 @@
 package com.leafymart.Model;
 
+
+/// Generate String
 public class PlantModel {
     private String plantName;
     private String plantValue;
@@ -8,6 +10,7 @@ public class PlantModel {
     private String plantSold;
     private int plantImage;
 
+    /// Calling Constructor
     public PlantModel(String plantName, String plantValue, String plantRating, String plantPeopleRates, String plantSold, int plantImage) {
         this.plantName = plantName;
         this.plantValue = plantValue;
@@ -16,6 +19,9 @@ public class PlantModel {
         this.plantSold = plantSold;
         this.plantImage = plantImage;
     }
+
+
+    /// Creating Setter and Getter
 
     public String getPlantName() {
         return plantName;

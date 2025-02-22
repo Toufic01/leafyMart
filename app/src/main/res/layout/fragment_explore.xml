@@ -17,10 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
+
+            <!-- ToolBar -->
+
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="50sp"
                 android:background="@color/white"
+                android:id="@+id/toolbar"
                 app:layout_collapseMode="pin">
 
                 <TextView
@@ -52,6 +56,9 @@
             android:background="@drawable/light_grey_bg"
             android:textColorHint="@color/black"></EditText>
     </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!-- Card view and categories -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

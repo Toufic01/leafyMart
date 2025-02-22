@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        /// Replace Fragment work and fragment changing work
+
         replaceFragment(new ExploreFragment());
         binding.bottomNavView.setBackground(null);
         binding.bottomNavView.setOnItemSelectedListener(item -> {
@@ -64,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    /// calling function for replace fragment
 
     private void replaceFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
