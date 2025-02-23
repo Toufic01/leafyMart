@@ -1,13 +1,20 @@
 package com.leafymart.Activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.MenuProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import com.leafymart.Fragments.CartFragment;
 import com.leafymart.Fragments.ExploreFragment;
@@ -34,6 +41,17 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        /// set up the toolbar and 3 dot
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar); // Set Toolbar as ActionBar
+
+        // else part of the toolbar 3 dot work in blow by calling onOption create function
+
+
+
 
         /// Replace Fragment work and fragment changing work
 
@@ -74,4 +92,49 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 
+
+    /// Inflate the menu (top toolbar 3 dot menu)
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+
+        inflater.inflate(R.menu.menu_top, menu);
+
+        return true;
+    }
+
+
+    // Handle menu item clicks
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_about) {
+
+            // Handle about action work
+
+            return true;
+
+        }
+
+        if (id == R.id.action_settings) {
+
+            // Handle setting action work
+
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+
+            // Handle logout action work
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

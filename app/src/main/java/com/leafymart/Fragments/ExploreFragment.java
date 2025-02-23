@@ -1,5 +1,6 @@
 package com.leafymart.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +41,8 @@ public class ExploreFragment extends Fragment {
 
     Toolbar toolbar;
 
+    TextView categories_view_all,Trending_view_all;
+
 
     public ExploreFragment() {
         /// Required empty public constructor
@@ -57,55 +61,31 @@ public class ExploreFragment extends Fragment {
         recyclerView = view.findViewById(R.id.trending_plants_recyclerView);
 
 
-        /// set up the toolbar
+        /// categories view all function work
 
-        toolbar = view.findViewById(R.id.toolbar);
+        categories_view_all = view.findViewById(R.id.categories_viewAll_TV);
 
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
+        // setting listener for go to view page
 
-        // Set up the toolbar
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-
-        // Add menu provider to handle menu items
-        requireActivity().addMenuProvider(new MenuProvider() {
+        categories_view_all.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.menu_top, menu);
+            public void onClick(View view) {
+
+                categories_viewAll fragment = new categories_viewAll();
+
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in_right, // Entering fragment animation
+                                R.anim.slide_out_left, // Exiting fragment animation
+                                R.anim.slide_in_left,  // Pop enter animation (when going back)
+                                R.anim.slide_out_right // Pop exit animation (when going back)
+                        )
+                        .replace(R.id.frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
-
-            @Override
-            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                if (id == R.id.action_about) {
-
-                    // about work
-
-                    return true;
-                }
-
-                if (id == R.id.action_settings) {
-
-                    // setting work
-
-                    return true;
-                }
-
-                if (id == R.id.action_logout) {
-
-                    // logout work
-
-                    return true;
-                }
-
-                return false;
-            }
-        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
-
-
-
-
-
+        });
 
 
         /// Create data
@@ -172,5 +152,37 @@ public class ExploreFragment extends Fragment {
                 update.run();
             }
         }, delay);
+
+
+
+
+        /// view Trending all function work
+
+        Trending_view_all = view.findViewById(R.id.trending_plants_viewAll_TV);
+
+        // setting listener for go to view page
+
+        Trending_view_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View_Tranding fragment = new View_Tranding(); // Corrected class name
+
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.slide_in_right, // Entering fragment animation
+                                R.anim.slide_out_left, // Exiting fragment animation
+                                R.anim.slide_in_left,  // Pop enter animation (when going back)
+                                R.anim.slide_out_right // Pop exit animation (when going back)
+                        )
+                        .replace(R.id.frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
+
+
     }
 }
