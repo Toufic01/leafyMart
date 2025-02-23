@@ -8,8 +8,61 @@
     android:background="@color/white"
     tools:context=".Activities.MainActivity">
 
+    <!-- Top Bar -->
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topbar"
+        android:backgroundTint="@color/white">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <!-- ToolBar -->
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="50sp"
+                android:background="@color/white"
+                android:id="@+id/toolbar"
+                app:layout_collapseMode="pin">
+
+                <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/autour_one"
+                    android:text="@string/app_name"
+                    android:textColor="@color/dark_green"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText"></TextView>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        <!-- Search Bar -->
+
+        <EditText
+            android:id="@+id/search_ET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8sp"
+            android:layout_marginLeft="16sp"
+            android:layout_marginRight="16sp"
+            android:layout_marginBottom="12sp"
+            android:padding="12sp"
+            android:drawableLeft="@drawable/baseline_search_24"
+            android:hint=" Search plants, tools and more..."
+            android:background="@drawable/light_grey_bg"
+            android:textColorHint="@color/black"></EditText>
+    </com.google.android.material.appbar.AppBarLayout>
+
     <FrameLayout
         android:id="@+id/frame_layout"
+        android:layout_below="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_nav_view"/>
