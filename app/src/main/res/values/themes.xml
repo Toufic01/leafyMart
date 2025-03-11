@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
  <!-- Force light theme -->
-        <item name="android:forceDarkAllowed" tools:ignore="NewApi">true</item>
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
         <!-- for using same theme for light and dark mode -->
     </style>
 

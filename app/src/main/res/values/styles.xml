@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/light_grey</item> <!-- Background color for the indicator -->
+        <item name="android:width">@dimen/cardview_default_radius</item>
+        <item name="android:height">@dimen/cardview_default_radius</item>
+        <item name="android:background">@color/light_Green</item>
+    </style>
+</resources>
