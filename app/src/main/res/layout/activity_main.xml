@@ -77,10 +77,11 @@
         android:minHeight="70sp"
         android:layout_alignParentBottom="true"
         android:background="@color/background"
-        app:itemIconTint="@color/dark_green"
-        app:itemTextColor="@color/dark_green"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
         app:labelVisibilityMode="labeled"
-        app:itemIconSize="20dp"
+        app:itemIconSize="30dp"
+        app:itemActiveIndicatorStyle="@style/BottomNavigationView.ActiveIndicator"
         app:menu="@menu/bottom_menu"></com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>

@@ -56,4 +56,7 @@
     <color name="light_blue">#C0DCEC</color>
     <color name="light_Green">#B1D8B7</color>
     <color name="light_Pink">#ECE3F0</color>
+
+    <color name="selected_item_color">@color/success_dark</color> <!-- Selected item color -->
+    <color name="unselected_item_color">@color/dark_grey</color>   <!-- Unselected item color -->
 </resources>
