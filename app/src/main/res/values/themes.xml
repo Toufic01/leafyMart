@@ -3,6 +3,9 @@
     <style name="Base.Theme.LeafyMart" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+ <!-- Force light theme -->
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">true</item>
+        <!-- for using same theme for light and dark mode -->
     </style>
 
     <style name="Theme.LeafyMart" parent="Base.Theme.LeafyMart" />
