@@ -25,9 +25,13 @@ import com.leafymart.Fragments.ProfileFragment;
 import com.leafymart.R;
 import com.leafymart.databinding.ActivityMainBinding;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,105 +43,110 @@ public class MainActivity extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setStatusBarColor(getResources().getColor(R.color.light_grey));
 
+        // Handle window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, v.getPaddingBottom());
-            return insets;
-        });
+                    Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                    v.setPadding(systemBars.left, systemBars.top, systemBars.right, v.getPaddingBottom());
+                    return insets;
+                });
+
+        // Initialize the first fragment
+        if (savedInstanceState == null) {
+            replaceFragment(new ExploreFragment(), false, true);
+            currentFragment = new ExploreFragment();
+        }
 
 
-        /// set up the toolbar and 3 dot
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar); // Set Toolbar as ActionBar
-
-        // else part of the toolbar 3 dot work in blow by calling onOption create function
-
-
-
-
-        /// Replace Fragment work and fragment changing work
-
-        replaceFragment(new ExploreFragment());
+        // Bottom navigation setup
         binding.bottomNavView.setBackground(null);
         binding.bottomNavView.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
-                case R.id.bottom_explore: {
-                    replaceFragment(new ExploreFragment());
+                case R.id.bottom_explore:
+                    selectedFragment = new ExploreFragment();
                     break;
-                }
-                case R.id.bottom_favorites: {
-                    replaceFragment(new FavoritesFragment());
+                case R.id.bottom_favorites:
+                    selectedFragment = new FavoritesFragment();
                     break;
-                }
-                case R.id.bottom_cart: {
-                    replaceFragment(new CartFragment());
+                case R.id.bottom_cart:
+                    selectedFragment = new CartFragment();
                     break;
-                }
-                case R.id.bottom_messages: {
-                    replaceFragment(new MessagesFragment());
+                case R.id.bottom_messages:
+                    selectedFragment = new MessagesFragment();
                     break;
-                }
-                case R.id.bottom_profile: {
-                    replaceFragment(new ProfileFragment());
+                case R.id.bottom_profile:
+                    selectedFragment = new ProfileFragment();
                     break;
-                }
+            }
+            if (selectedFragment != null && !selectedFragment.getClass().equals(currentFragment.getClass())) {
+                // Determine navigation direction
+                boolean isForward = isForwardNavigation(selectedFragment);
+                replaceFragment(selectedFragment, true, isForward);
+                currentFragment = selectedFragment;
             }
             return true;
         });
-
     }
 
+    // Replace fragment method with animations
+    private void replaceFragment(Fragment fragment, boolean addToBackStack, boolean isForward) {
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-    /// calling function for replace fragment
+        // Set animations based on direction
+        if (isForward) {
+            // Forward navigation: slide in from right, slide out to left
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_right,  // Enter animation
+                    R.anim.slide_out_left   // Exit animation
+            );
+        } else {
+            // Backward navigation: slide in from left, slide out to right
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_left,   // Enter animation
+                    R.anim.slide_out_right  // Exit animation
+            );
+        }
 
-    private void replaceFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
+        transaction.replace(R.id.frame_layout, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment.getClass().getSimpleName()); // Add to back stack
+        }
+
+        transaction.commit();
     }
 
-
-    /// Inflate the menu (top toolbar 3 dot menu)
-
+    /// for clear transaction with proper animation
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.menu_top, menu);
-
-        return true;
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            // Pop the back stack to trigger the backward animations
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed(); // Exit the app if no fragments are in the back stack
+        }
     }
 
 
-    // Handle menu item clicks
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    /// for button nav animation determine which is Forward Navigation
+    private boolean isForwardNavigation(Fragment newFragment) {
+        // Define the order of fragments
+        List<Class<? extends Fragment>> fragmentOrder = Arrays.asList(
+                ExploreFragment.class,
+                FavoritesFragment.class,
+                CartFragment.class,
+                MessagesFragment.class,
+                ProfileFragment.class
+        );
 
-        int id = item.getItemId();
+        // Get the indices of the current and new fragments
+        int currentIndex = fragmentOrder.indexOf(currentFragment.getClass());
+        int newIndex = fragmentOrder.indexOf(newFragment.getClass());
 
-        if (id == R.id.action_about) {
-
-            // Handle about action work
-
-            return true;
-
-        }
-
-        if (id == R.id.action_settings) {
-
-            // Handle setting action work
-
-            return true;
-        }
-
-        if (id == R.id.action_logout) {
-
-            // Handle logout action work
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        // If the new fragment is later in the order, it's a forward navigation
+        return newIndex > currentIndex;
     }
+
+
 }
