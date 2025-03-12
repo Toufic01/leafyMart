@@ -61,6 +61,17 @@ public class ExploreFragment extends Fragment {
         recyclerView = view.findViewById(R.id.trending_plants_recyclerView);
 
 
+        /// set up the toolbar and 3 dot
+
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+
+        // else part of the toolbar 3 dot work in blow by calling onOption create function
+
+
+
+
         /// categories view all function work
 
         categories_view_all = view.findViewById(R.id.categories_viewAll_TV);
@@ -184,5 +195,47 @@ public class ExploreFragment extends Fragment {
         });
 
 
+    }
+    /// Inflate the menu (top toolbar 3 dot menu)
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // Inflate the menu into the provided Menu object
+        inflater.inflate(R.menu.menu_top, menu);
+        super.onCreateOptionsMenu(menu, inflater);  // Call the superclass method if needed
+    }
+
+
+    // Handle menu item clicks
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_about) {
+
+            // Handle about action work
+
+            return true;
+
+        }
+
+        if (id == R.id.action_settings) {
+
+            // Handle setting action work
+
+            return true;
+        }
+
+        if (id == R.id.action_logout) {
+
+            // Handle logout action work
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
