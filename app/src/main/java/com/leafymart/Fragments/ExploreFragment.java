@@ -61,6 +61,12 @@ public class ExploreFragment extends Fragment {
         recyclerView = view.findViewById(R.id.trending_plants_recyclerView);
 
 
+
+        // Remove the automatic title
+        if (getActivity() != null) {
+            getActivity().setTitle(""); // Clears the title
+        }
+
         /// set up the toolbar and 3 dot
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -122,7 +128,6 @@ public class ExploreFragment extends Fragment {
 
         // List of images
         List<Integer> images = Arrays.asList(
-                R.drawable.image_plant,
                 R.drawable.image_plant1,
                 R.drawable.image_plant2,
                 R.drawable.image_plant3,
