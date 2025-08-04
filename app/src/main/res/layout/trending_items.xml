@@ -1,99 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8sp"
-    android:layout_columnWeight="1"
-    android:layout_rowWeight="1"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="5sp"
-    app:cardElevation="5sp"
-    app:cardUseCompatPadding="false">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <!-- Design for card view in explore fragment -->
-
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5sp"
-        android:orientation="vertical"
-        android:padding="2sp">
-
-        <!-- Card image work -->
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/trending_plants_IV"
-            android:layout_width="160sp"
-            android:layout_height="180sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="2sp"
-            android:scaleType="fitXY"
-            android:src="@drawable/plant_1" />
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"/>
 
-        <!-- Description of the product -->
+        <ImageView
+            android:id="@+id/favorites"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/trending_plants_IV"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="-172dp"
+            android:layout_marginEnd="17dp"
+            android:src="@drawable/baseline_favorite_border_24" />
 
         <TextView
             android:id="@+id/trending_plants_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
+            android:layout_below="@id/trending_plants_IV"
             android:text="Plant Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/trending_plants_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
+            android:layout_below="@id/trending_plants_name"
             android:text="৳100"
-            android:textColor="@color/success_dark"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textColor="@color/green"
+            android:textSize="14sp"/>
 
         <LinearLayout
+            android:id="@+id/rating_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/trending_plants_value"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/trending_plants_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="2sp"
-                android:drawableLeft="@drawable/baseline_star_16"
-                android:text="5.0"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:text="4.5"
+                android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/trending_plants_people_rates"
+                android:id="@+id/trending_plants_rating_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8sp"
-                android:text="(87)"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:layout_marginLeft="5dp"
+                android:text="4.5"
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/trending_plants_sold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="161"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2sp"
-                android:text="Sold"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
-
+                android:layout_marginStart="8dp"
+                android:text="100 sold"
+                android:textSize="12sp"/>
         </LinearLayout>
-
-    </LinearLayout>
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

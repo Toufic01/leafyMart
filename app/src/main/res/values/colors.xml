@@ -56,6 +56,19 @@
     <color name="light_blue">#C0DCEC</color>
     <color name="light_Green">#B1D8B7</color>
     <color name="light_Pink">#ECE3F0</color>
+    <color name="tracking_processing">#FFA500</color>  <!-- Orange -->
+    <color name="tracking_packed">#4A90E2</color>      <!-- Blue -->
+    <color name="tracking_shipped">#4A90E2</color>     <!-- Blue -->
+    <color name="tracking_out_for_delivery">#4A90E2</color> <!-- Blue -->
+    <color name="tracking_delivered">#4CAF50</color>   <!-- Green -->
+    <color name="tracking_default">#9E9E9E</color>     <!-- Grey -->
+        <!-- Existing colors... -->
+
+        <!-- Tracking status colors -->
+        <color name="tracking_pending">#CCCCCC</color>       <!-- Grey for pending steps -->
+        <color name="tracking_in_progress">#2196F3</color>   <!-- Blue for current step -->
+        <color name="tracking_completed">#4CAF50</color>     <!-- Green for completed steps -->
+
 
     <color name="selected_item_color">@color/success_dark</color> <!-- Selected item color -->
     <color name="unselected_item_color">@color/dark_grey</color>   <!-- Unselected item color -->

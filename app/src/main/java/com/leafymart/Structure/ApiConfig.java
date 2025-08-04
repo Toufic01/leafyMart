@@ -1,4 +1,4 @@
-package com.leafymart.Activities;
+package com.leafymart.Structure;
 
 public class ApiConfig {
 

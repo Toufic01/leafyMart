@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Login">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/leafymart"
+        app:civ_border_width="2dp"
+        android:layout_centerInParent="true"
+        app:civ_border_color="#FF000000"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leafy Mart"
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/profile_image"
+        android:layout_margin="10sp"
+        android:id="@+id/app_name"/>
+
+    <LinearLayout
+        android:id="@+id/login_register_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:hint="Enter your email ..."
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/black"
+            android:id="@+id/user_login"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:hint="Enter Password ..."
+            android:inputType="textPassword"
+            android:textColorHint="@color/black"
+            android:id="@+id/user_password"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:id="@+id/btn_login"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

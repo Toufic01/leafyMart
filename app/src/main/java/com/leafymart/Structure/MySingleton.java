@@ -1,4 +1,4 @@
-package com.leafymart.Activities;
+package com.leafymart.Structure;
 
 import android.content.Context;
 import com.android.volley.Request;
@@ -24,5 +24,12 @@ public class MySingleton {
 
     public <T> void add(Request<T> request) {
         requestQueue.add(request);
+    }
+
+
+    public void cancelAllRequests(Object tag) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(tag);
+        }
     }
 }

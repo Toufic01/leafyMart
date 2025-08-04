@@ -1,107 +1,195 @@
 package com.leafymart.Adapter;
 
-import static androidx.fragment.app.FragmentManager.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.leafymart.R;
+import com.leafymart.Dialogbox.ProductDetailsDialog;
+import com.leafymart.Manager.FavoriteManager;
 import com.leafymart.Model.PlantModel;
+import com.leafymart.R;
 
 import java.util.List;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> {
 
-    private Context context;
-    private List<PlantModel> plants;
+    public interface OnFavoriteChangeListener {
+        void onFavoritesChanged();
+    }
 
-    public PlantAdapter(Context context, List<PlantModel> plants) {
-        this.context = context;
-        this.plants = plants;
+    public static final int VIEW_TYPE_TRENDING = 0;
+    public static final int VIEW_TYPE_FAVORITE = 1;
+
+    private OnFavoriteChangeListener favListener;
+    public final Context ctx;
+    private List<PlantModel> list;
+    private final int viewType;
+
+    public PlantAdapter(Context c, List<PlantModel> l, int viewType) {
+        ctx = c;
+        list = l;
+        this.viewType = viewType;
+    }
+
+    public void setOnFavoriteChangeListener(OnFavoriteChangeListener listener) {
+        this.favListener = listener;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return viewType;
     }
 
     @NonNull
     @Override
     public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.trending_items, parent, false);
-        return new PlantViewHolder(view);
+        View view = LayoutInflater.from(ctx).inflate(
+                viewType == VIEW_TYPE_FAVORITE ? R.layout.favorite_item : R.layout.trending_items,
+                parent, false);
+        return new PlantViewHolder(view, viewType);
     }
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
-        PlantModel plant = plants.get(position);
+        PlantModel plant = list.get(position);
+        if (plant == null) return;
 
-        holder.trending_plants_name.setText(plant.getName());
-        holder.trending_plants_value.setText("৳" + plant.getPrice());
-        holder.trending_plants_rating.setText(String.valueOf(plant.getRating()));
-        holder.trending_plants_people_rates.setText("(N/A)");
-        holder.trending_plants_sold.setText(String.valueOf(plant.getSold()) + " Sold");
+        // Bind data to views
+        holder.name.setText(plant.getName());
+        holder.price.setText("৳" + plant.getPrice());
 
-
-        Glide.with(context)
+        // Load image
+        Glide.with(ctx)
                 .load(plant.getImageUrl())
-                .placeholder(R.drawable.baseline_star_16)
-                .error(R.drawable.baseline_notifications_24)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                Target<Drawable> target, boolean isFirstResource) {
-                        Log.e("GlideError", "Image load failed: " + plant.getImageUrl(), e);
-                        return false;
-                    }
+                .into(holder.img);
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model,
-                                                   Target<Drawable> target, DataSource dataSource,
-                                                   boolean isFirstResource) {
-                        Log.d("GlideSuccess", "Image loaded: " + plant.getImageUrl());
-                        return false;
-                    }
-                })
-                .into(holder.trending_plants_IV);
+        // Set rating and sold if they exist
+        if (holder.rating != null) {
+            holder.rating.setText(String.valueOf(plant.getRating()));
+        }
+        if (holder.sold != null) {
+            holder.sold.setText(plant.getSold() + " sold");
+        }
 
+        // Handle favorite icon
+        if (holder.favorite != null) {
+            updateFavoriteIcon(holder.favorite, plant.getId());
+            holder.favorite.setOnClickListener(v -> toggleFavorite(holder, plant));
+        }
 
+        // Handle delete button (only in favorites view)
+        if (holder.delete != null) {
+            holder.delete.setOnClickListener(v -> deleteFavorite(holder, plant));
+        }
 
+        // Item click listener
+        holder.itemView.setOnClickListener(v -> {
+            if (ctx instanceof FragmentActivity) {
+                ProductDetailsDialog dialog = new ProductDetailsDialog((FragmentActivity) ctx, plant);
+                dialog.show();
+            }
+        });
+    }
+
+    private void toggleFavorite(PlantViewHolder holder, PlantModel plant) {
+        int pos = holder.getAdapterPosition();
+        if (pos == RecyclerView.NO_POSITION) return;
+
+        FavoriteManager favoriteManager = FavoriteManager.get(ctx);
+        boolean isNowFavorite = !favoriteManager.isFav(plant.getId());
+        updateFavoriteIcon(holder.favorite, plant.getId(), isNowFavorite);
+
+        if (isNowFavorite) {
+            favoriteManager.add(plant);
+        } else {
+            favoriteManager.remove(plant);
+            if (viewType == VIEW_TYPE_FAVORITE) {
+                list.remove(pos);
+                notifyItemRemoved(pos);
+            }
+        }
+
+        if (favListener != null) {
+            favListener.onFavoritesChanged();
+        }
+    }
+    private void deleteFavorite(PlantViewHolder holder, PlantModel plant) {
+        int pos = holder.getAdapterPosition();
+        if (pos == RecyclerView.NO_POSITION) return;
+
+        FavoriteManager.get(ctx).remove(plant);
+        list.remove(pos);
+        notifyItemRemoved(pos);
+
+        if (favListener != null) {
+            favListener.onFavoritesChanged();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return plants.size();
+        return list.size();
     }
 
-    public class PlantViewHolder extends RecyclerView.ViewHolder {
-        ImageView trending_plants_IV;
-        TextView trending_plants_name;
-        TextView trending_plants_value;
-        TextView trending_plants_rating;
-        TextView trending_plants_people_rates;
-        TextView trending_plants_sold;
+    public void update(List<PlantModel> newList) {
+        this.list = newList;
+        notifyDataSetChanged();
+    }
 
-        public PlantViewHolder(@NonNull View itemView) {
+    private void updateFavoriteIcon(ImageView heartIcon, int productId) {
+        if (heartIcon == null) return;
+        heartIcon.setImageResource(
+                FavoriteManager.get(ctx).isFav(productId)
+                        ? R.drawable.image_removebg_preview
+                        : R.drawable.baseline_favorite_border_24
+        );
+    }
+
+    private void updateFavoriteIcon(ImageView heartIcon, int productId, boolean isFavorite) {
+        if (heartIcon == null) return;
+        heartIcon.setImageResource(
+                isFavorite
+                        ? R.drawable.image_removebg_preview
+                        : R.drawable.baseline_favorite_border_24
+        );
+    }
+
+    static class PlantViewHolder extends RecyclerView.ViewHolder {
+        ImageView img, favorite;
+        Button delete;
+        TextView name, price, rating, sold;
+
+        PlantViewHolder(@NonNull View itemView, int viewType) {
             super(itemView);
-            trending_plants_IV = itemView.findViewById(R.id.trending_plants_IV);
-            trending_plants_name = itemView.findViewById(R.id.trending_plants_name);
-            trending_plants_value = itemView.findViewById(R.id.trending_plants_value);
-            trending_plants_rating = itemView.findViewById(R.id.trending_plants_rating);
-            trending_plants_people_rates = itemView.findViewById(R.id.trending_plants_people_rates);
-            trending_plants_sold = itemView.findViewById(R.id.trending_plants_sold);
+
+            if (viewType == VIEW_TYPE_FAVORITE) {
+                img = itemView.findViewById(R.id.favorite_item_image);
+                favorite = itemView.findViewById(R.id.favorites);
+                delete = itemView.findViewById(R.id.favorite_item_delete);
+                name = itemView.findViewById(R.id.favorite_item_name);
+                price = itemView.findViewById(R.id.favorite_item_price);
+                rating = itemView.findViewById(R.id.favorite_plants_rating);
+                sold = itemView.findViewById(R.id.favorite_plants_sold);
+            } else {
+                img = itemView.findViewById(R.id.trending_plants_IV);
+                favorite = itemView.findViewById(R.id.favorites);
+                delete = null;
+                name = itemView.findViewById(R.id.trending_plants_name);
+                price = itemView.findViewById(R.id.trending_plants_value);
+                rating = itemView.findViewById(R.id.trending_plants_rating);
+                sold = itemView.findViewById(R.id.trending_plants_sold);
+            }
         }
     }
 }

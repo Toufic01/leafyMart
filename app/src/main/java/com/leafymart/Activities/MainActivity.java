@@ -1,26 +1,20 @@
 package com.leafymart.Activities;
 
+import android.content.ComponentCallbacks;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
-import androidx.core.view.MenuProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 
 import com.leafymart.Fragments.CartFragment;
 import com.leafymart.Fragments.ExploreFragment;
 import com.leafymart.Fragments.FavoritesFragment;
-import com.leafymart.Fragments.MessagesFragment;
+import com.leafymart.Fragments.MessageFragment;
 import com.leafymart.Fragments.ProfileFragment;
 import com.leafymart.R;
 import com.leafymart.databinding.ActivityMainBinding;
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new CartFragment();
                     break;
                 case R.id.bottom_messages:
-                    selectedFragment = new MessagesFragment();
+                    selectedFragment = new MessageFragment();
                     break;
                 case R.id.bottom_profile:
                     selectedFragment = new ProfileFragment();
@@ -132,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
     /// for button nav animation determine which is Forward Navigation
     private boolean isForwardNavigation(Fragment newFragment) {
         // Define the order of fragments
-        List<Class<? extends Fragment>> fragmentOrder = Arrays.asList(
+        List<? extends Class<? extends ComponentCallbacks>> fragmentOrder = Arrays.asList(
                 ExploreFragment.class,
                 FavoritesFragment.class,
                 CartFragment.class,
-                MessagesFragment.class,
+                MessageFragment.class,
                 ProfileFragment.class
         );
 
