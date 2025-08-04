@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/LeafyMart.iml" filepath="$PROJECT_DIR$/.idea/LeafyMart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LeafyMart.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>
