@@ -36,6 +36,9 @@ import com.leafymart.Model.PlantModel;
 import com.leafymart.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -53,6 +56,7 @@ public class ExploreFragment extends Fragment {
     // Debounce handler for text watcher
     private final Handler searchHandler = new Handler();
     private Runnable searchRunnable;
+
     private static final long SEARCH_DELAY_MS = 600; // debounce delay
 
     public ExploreFragment() {}
@@ -106,8 +110,9 @@ public class ExploreFragment extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fetchTrending();
-                handler.postDelayed(this, interval);
+
+                    fetchTrending();
+                    handler.postDelayed(this, interval);
 
             }
         }, interval);
@@ -130,7 +135,11 @@ public class ExploreFragment extends Fragment {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 String query = searchbar.getText().toString().trim();
                 if (!query.isEmpty()) {
-                    performSearch(query);
+                    try {
+                        performSearch(query);
+                    } catch (UnsupportedEncodingException e) {
+                        throw new RuntimeException(e);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Please enter search query", Toast.LENGTH_SHORT).show();
                 }
@@ -150,7 +159,11 @@ public class ExploreFragment extends Fragment {
                 searchRunnable = () -> {
                     String query = s.toString().trim();
                     if (!query.isEmpty()) {
-                        performSearch(query);
+                        try {
+                            performSearch(query);
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 };
                 searchHandler.postDelayed(searchRunnable, SEARCH_DELAY_MS);
@@ -181,8 +194,8 @@ public class ExploreFragment extends Fragment {
 
 
 
-    private void performSearch(String query) {
-        String url = ApiConfig.BASE_URL + "/products";
+    private void performSearch(String query) throws UnsupportedEncodingException {
+        String url = ApiConfig.BASE_URL + "/products?search=" + URLEncoder.encode(query, "UTF-8");
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -193,7 +206,7 @@ public class ExploreFragment extends Fragment {
             return;
         }
 
-        JsonArrayRequest searchRequest = new JsonArrayRequest(Request.Method.POST, url, null,
+        JsonArrayRequest searchRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
                     List<PlantModel> searchResults = new ArrayList<>();
                     for (int i = 0; i < response.length(); i++) {
@@ -266,17 +279,26 @@ public class ExploreFragment extends Fragment {
 
     /** Call GET /products/trending and fill RecyclerView */
     private void fetchTrending() {
+
+        if (!isAdded() || getContext() == null || isDetached()) {
+            return; // Skip if fragment isn't attached
+        }
+
         String url = ApiConfig.BASE_URL + "/products/trending";
 
         JsonArrayRequest req = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
+                    if (!isAdded()) return;
                     plants.clear();
                     parseJsonArray(response);
                     plantAdapter.notifyDataSetChanged();  // refresh RecyclerView
                 },
-                error -> Toast.makeText(getContext(), "Load error: " + error.getMessage(), Toast.LENGTH_SHORT).show()
+                error -> {
+                    if (isAdded()) {
+                        Toast.makeText(requireContext(), "Load error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
         );
-
         MySingleton.get(requireContext()).add(req);
     }
 
@@ -311,13 +333,18 @@ public class ExploreFragment extends Fragment {
         Handler h = new Handler();
         Runnable r = new Runnable() {
             @Override public void run() {
-                int next = (viewPager2.getCurrentItem() + 1) % viewPager2.getAdapter().getItemCount();
-                viewPager2.setCurrentItem(next, true);
-                h.postDelayed(this, 2500);  // 2.5 s
+                if (isAdded() && viewPager2.getAdapter() != null) {
+                    int next = (viewPager2.getCurrentItem() + 1) % viewPager2.getAdapter().getItemCount();
+                    viewPager2.setCurrentItem(next, true);
+                    h.postDelayed(this, 2500);
+                }
             }
         };
         h.postDelayed(r, 2500);
     }
+
+
+
 
     // ── Toolbar menu inflating (kept from your code) ─────
     @Override public void onCreateOptionsMenu(Menu m, MenuInflater i) {
@@ -331,10 +358,22 @@ public class ExploreFragment extends Fragment {
         if (id == R.id.action_logout) {
             logoutUser();
             return true;
+        } else if (id == R.id.action_about) {
+            showAboutDialog();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void showAboutDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("About LeafyMart")
+                .setMessage("LeafyMart v1.0\n\nDeveloped by Md. Toufic Ahmed.\nAn eCommerce app for plant lovers.")
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
 
     private void logoutUser() {
         int userId = com.leafymart.Manager.SessionManager.getInstance(requireContext()).getUserId();

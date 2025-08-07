@@ -1,5 +1,6 @@
 package com.leafymart.Adapter;
 
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -31,11 +32,15 @@ import com.leafymart.Model.PlantModel;
 import com.leafymart.R;
 import com.leafymart.Structure.ApiConfig;
 import com.leafymart.Structure.CartHelper;
+import com.leafymart.Structure.MySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -106,19 +111,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     private void removeItem(int cartItemId, int position) {
-        CartHelper.updateCartItem(context, cartItemId, userId, 0, "cancelled",
+        CartHelper.deleteCartItem(context, cartItemId, userId,
                 new CartHelper.CartOperationCallback() {
                     @Override
                     public void onSuccess(JSONObject response) {
+                        // Remove item from list and update UI
                         cartList.remove(position);
                         notifyItemRemoved(position);
                         Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onError(String error) {
-                        Toast.makeText(context, "Error: " + error, Toast.LENGTH_LONG).show();
+                    public void onError(String error, String detailedError) {
+                        Toast.makeText(context, "Error: " + error, Toast.LENGTH_SHORT).show();
+
                     }
+
                 }
         );
     }
@@ -194,41 +202,39 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Volley.newRequestQueue(context).add(request);
     }
 
-//    private void deleteCartItem(int cartItemId, int position) {
-//        CartHelper.deleteCartItem(context, cartItemId, userId,
+//    public static void deleteCartItem(Context context, int cartItemId, int userId,
+//                                      CartHelper.CartOperationCallback callback) {
+//        String url = ApiConfig.BASE_URL + "/cart/" + cartItemId + "?user_id=" + userId;
+//
+//        JsonObjectRequest request = new JsonObjectRequest(
+//                Request.Method.DELETE,
+//                url,
+//                null,
 //                response -> {
 //                    try {
 //                        if (response.getBoolean("success")) {
-//                            cartList.remove(position);
-//                            notifyItemRemoved(position);
-//                            Toast.makeText(context, "Item removed", Toast.LENGTH_SHORT).show();
+//                            callback.onSuccess(response);
 //                        } else {
-//                            Toast.makeText(context,
-//                                    "Failed: " + response.getString("message"),
-//                                    Toast.LENGTH_SHORT).show();
+//                            callback.onError(response.getString("message"));
 //                        }
-//                    } catch (JSONException e) {
-//                        Toast.makeText(context, "Error parsing response", Toast.LENGTH_SHORT).show();
-//                        Log.e("DeleteError", "JSON parse error", e);
+//                    } catch (Exception e) {
+//                        callback.onError("Invalid response format");
 //                    }
 //                },
 //                error -> {
-//                    String errorMsg = "Network error";
-//                    if (error.networkResponse != null) {
-//                        try {
-//                            String body = new String(error.networkResponse.data, "UTF-8");
-//                            JSONObject json = new JSONObject(body);
-//                            errorMsg = json.getString("message");
-//                        } catch (Exception e) {
-//                            errorMsg = "Error code: " + error.networkResponse.statusCode;
-//                        }
-//                    }
-//                    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show();
-//                    Log.e("DeleteError", "Volley error", error);
+//                    callback.onError(getErrorMessage(error));
 //                }
-//        );
+//        ) {
+//            @Override
+//            public Map<String, String> getHeaders() {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Content-Type", "application/json");
+//                return headers;
+//            }
+//        };
+//
+//        Volley.newRequestQueue(context).add(request);
 //    }
-
     private void updateCartQuantity(PlantModel item, int newQuantity, int position) {
         int oldQuantity = item.getQuantity();
         item.setQuantity(newQuantity);

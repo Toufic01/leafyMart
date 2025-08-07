@@ -10,5 +10,4 @@
     <style name="ToolbarTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textColor">@color/black</item>
     </style>
-
 </resources>
